@@ -1,0 +1,50 @@
+\section{Section C: Practical Implementation}
+
+\subsection{Question 6: Full Pipeline: Feature Extraction, SVM, and Regularisation}
+
+\subsubsection{Stage 1: Data Loading and Preprocessing}
+
+\subsubsection{Stage 2: Feature Extraction}
+
+\subsubsection{Stage 3: SVM Training with Regularisation}
+
+\begin{table}[htbp]
+\caption{Configuration Comparision}
+\centering
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    Config. & Kernel & Reg. & C & Val F1 & Val AUC\_POC & Train Time (s)\\
+    \hline
+    (i) & Linear & l$_{2}$ & 1.0 & 0.8404 & 0.8367 & 0.1226\\
+    (ii) & Linear & l$_{1}$ & 1.0 & 0.8439 & 0.8433 & 0.14067\\
+    (iii, optimal) & Linear & l$_{2}$ & 10 & 0.8431 & 0.8400 & 0.1752\\
+    (iv, optimal) & RBF & l$_{1}$ & 10 & 0.8262 & 0.8233 & 2.0886\\
+    \hline
+\end{tabular}
+}
+\label{gridsearch}
+\end{table}
+
+\subsubsection{Stage 4: Evaluation and Reporting}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\columnwidth]{images/confusion_matrix.png}
+    \caption{Confusion Matrix}
+    \label{confusion_matrix}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\columnwidth]{images/roc_curve.png}
+    \caption{ROC Curve}
+    \label{roc_curve}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\columnwidth]{images/pr_curve.png}
+    \caption{Precision-Recall Curve}
+    \label{pr_curve}
+\end{figure}
