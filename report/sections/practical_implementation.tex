@@ -4,6 +4,13 @@
 
 \subsubsection{Stage 1: Data Loading and Preprocessing}
 
+\begin{enumerate}[label=\roman*.]
+    \item Tokenisation and lowercasing:
+    \item Stopword removal:
+    \item Lemmatisation:
+    \item Data Splitting:
+\end{enumerate}
+
 \subsubsection{Stage 2: Feature Extraction}
 
 \subsubsection{Stage 3: SVM Training with Regularisation}
@@ -11,40 +18,93 @@
 \begin{table}[htbp]
 \caption{Configuration Comparision}
 \centering
-\resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|c|c|c|c|c|c|}
     \hline
     Config. & Kernel & Reg. & C & Val F1 & Val AUC\_POC & Train Time (s)\\
     \hline
     (i) & Linear & l$_{2}$ & 1.0 & 0.8404 & 0.8367 & 0.1226\\
-    (ii) & Linear & l$_{1}$ & 1.0 & 0.8439 & 0.8433 & 0.14067\\
+    (ii) & Linear & l$_{1}$ & 1.0 & 0.8439 & 0.8433 & 0.1407\\
     (iii, optimal) & Linear & l$_{2}$ & 10 & 0.8431 & 0.8400 & 0.1752\\
     (iv, optimal) & RBF & l$_{1}$ & 10 & 0.8262 & 0.8233 & 2.0886\\
     \hline
 \end{tabular}
-}
 \label{gridsearch}
 \end{table}
 
 \subsubsection{Stage 4: Evaluation and Reporting}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.5\columnwidth]{images/confusion_matrix.png}
-    \caption{Confusion Matrix}
-    \label{confusion_matrix}
-\end{figure}
+\begin{table}[htbp]
+\centering
+\caption{Classification Report}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Class & Precision & Recall & F1-score & Support \\
+\hline
+0 & 0.81 & 0.76 & 0.78 & 150 \\
+1 & 0.77 & 0.82 & 0.80 & 150 \\
+\hline
+Accuracy & \multicolumn{3}{c|}{0.79} & 300 \\
+\hline
+Macro Avg & 0.79 & 0.79 & 0.79 & 300 \\
+Weighted Avg & 0.79 & 0.79 & 0.79 & 300 \\
+\hline
+\end{tabular}
+\end{table}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.5\columnwidth]{images/roc_curve.png}
-    \caption{ROC Curve}
-    \label{roc_curve}
+    
+    % Top figure
+    \begin{subfigure}{0.48\columnwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/confusion_matrix.png}
+        \caption{Confusion Matrix}
+        \label{fig:confusion_matrix}
+    \end{subfigure}
+    
+    \vspace{0.5cm}
+    
+    % Bottom row (two side-by-side)
+    \begin{subfigure}{0.48\columnwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/roc_curve.png}
+        \caption{ROC Curve}
+        \label{fig:roc_curve}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\columnwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/pr_curve.png}
+        \caption{Precision-Recall Curve}
+        \label{fig:pr_curve}
+    \end{subfigure}
+    
+    \caption{Model Evaluation Metrics}
+    \label{fig:evaluation_metrics}
 \end{figure}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.5\columnwidth]{images/pr_curve.png}
-    \caption{Precision-Recall Curve}
-    \label{pr_curve}
-\end{figure}
+\begin{table}[htbp]
+\centering
+\caption{Cross-Validation Performance Metrics}
+\begin{tabular}{|c|c|c|}
+\hline
+Metric & Mean & Std \\
+\hline
+F1-score & 0.8175 & 0.0158 \\
+AUC-ROC & 0.8936 & 0.0129 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Results of best SVM configuration on embedding features}
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    F1-score & AUC-ROC \\
+    \hline
+    0.6730 & 0.7216 \\
+    \hline
+\end{tabular}
+\label{embedding_results}
+\end{table}

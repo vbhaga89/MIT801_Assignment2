@@ -3,3 +3,44 @@
 \subsection{Question 4: Regularisation Mathematics}
 
 \subsection{Question 5: Performance Metrics and Evaluation}
+
+\begin{enumerate}[label=\roman*.]
+    \item Accuracy:
+        \begin{align*}
+        \text{Accuracy} &= \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} \\
+                        &= \frac{165 + 158}{165 + 158 + 42 + 35} \\
+                        &= \frac{323}{400} \\
+                        &= \underrightarrow{0.8075}
+        \end{align*}
+    \item Precision:
+        \begin{align*}
+        \text{Precision} &= \frac{\text{TP}}{\text{TP} + \text{FP}} \\
+                         &= \frac{165}{165 + 42} \\
+                         &= \frac{165}{207} \\
+                         &= \underrightarrow{0.7971}
+        \end{align*}
+    \item Recall / Sensitivity:
+        \begin{align*}
+        \text{Recall}   &= \frac{\text{TP}}{\text{TP} + \text{FN}} \\
+                        &= \frac{165}{165 + 35} \\
+                        &= \frac{165}{200} \\
+                        &= \underrightarrow{0.8250}
+        \end{align*}
+    \item Specificity:
+        \begin{align*}
+        \text{Specificity}  &= \frac{\text{TN}}{\text{TN} + \text{FP}} \\
+                            &= \frac{158}{158 + 42} \\
+                            &= \frac{158}{200} \\
+                            &= \underrightarrow{0.7900}
+        \end{align*}
+    \item F1-score:
+        \begin{align*}
+        \text{F1-score} &= 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} \\
+                        &= \frac{2\text{TP}}{2\text{TP} + \text{FP} + \text{FN}} \\
+                        &= \frac{2(\text{165})}{2(\text{165}) + \text{42} + \text{35}} \\
+                        &= \frac{330}{407} \\
+                        &= \underrightarrow{0.8108}
+        \end{align*}
+\end{enumerate}
+
+
