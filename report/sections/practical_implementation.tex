@@ -5,10 +5,33 @@
 \subsubsection{Stage 1: Data Loading and Preprocessing}
 
 \begin{enumerate}[label=\roman*.]
-    \item Tokenisation and lowercasing:
-    \item Stopword removal:
-    \item Lemmatisation:
-    \item Data Splitting:
+    \item Tokenisation and lowercasing: Tokenisation involves dividing text into smaller units called tokens. These tokens can be in the form of words, characters, sub-words or sentences.
+          It helps improve interpretability of text by different models. Lowercasing ensures words such as "Hello" and "hello" are treated as the same feature. These two steps reduces
+          vocabulary size and inconsistency which in turn helps the model generalise better.
+    \item Stopword removal: Stopwords are common words such as "the", "is", "and" etc. These words carry very little sentiment meaning. By removing these words, it helps reduce dimensionality
+          which allows the model to focus on words that have more sentiment value. This results in better overall model performance.
+    \item Stemming or Lemmatisation: Stemming cuts words to their root by trimming prefixes or suffixes. Lemmatisation uses linguistic rules to return meaningful base words (lemmas).
+          Stemming is performed on each word independently whereas Lemmatisation is context aware. Lemmatisation was chosen for this use case since it preserves meaning more accurately than
+          Stemming. This is especially important in sentiment analysis (like this movie review scenario) since it is sensitive to meaning.
+    \item Data Splitting: Stratified sampling ensures that each split has the same class distribution. This prevents class imbalance bias from happening in any of the splits and ensures a
+          fair evaluation is performed. Table \ref{class_counts} indicates the class counts in each split:
+
+            \begin{table}[htbp]
+            \caption{Class counts per dataset split}
+            \centering
+            \begin{tabular}{lcc}
+            \hline
+            \textbf{Split} & \textbf{Positive Class} & \textbf{Negative Class} \\
+            \hline
+            Training   & 700 & 700 \\
+            Validation & 150 & 150 \\
+            Test       & 150 & 150 \\
+            \hline
+            \end{tabular}
+            \label{class_counts}
+            \end{table}
+
+
 \end{enumerate}
 
 \subsubsection{Stage 2: Feature Extraction}
@@ -86,9 +109,9 @@ Weighted Avg & 0.79 & 0.79 & 0.79 & 300 \\
 \begin{table}[htbp]
 \centering
 \caption{Cross-Validation Performance Metrics}
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{ccc}
 \hline
-Metric & Mean & Std \\
+\textbf{Metric} & \textbf{Mean} & \textbf{Std} \\
 \hline
 F1-score & 0.8175 & 0.0158 \\
 AUC-ROC & 0.8936 & 0.0129 \\
@@ -99,9 +122,9 @@ AUC-ROC & 0.8936 & 0.0129 \\
 \begin{table}[htbp]
 \caption{Results of best SVM configuration on embedding features}
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|}
+\begin{tabular}{cc}
     \hline
-    F1-score & AUC-ROC \\
+    \textbf{F1-score} & \textbf{AUC-ROC} \\
     \hline
     0.6730 & 0.7216 \\
     \hline
