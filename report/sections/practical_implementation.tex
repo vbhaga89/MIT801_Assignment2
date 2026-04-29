@@ -4,6 +4,7 @@
 
 \subsubsection{Stage 1: Data Loading and Preprocessing}
 
+\noindent\textbf{(a)}
 \begin{enumerate}[label=\roman*.]
     \item Tokenisation and lowercasing: Tokenisation involves dividing text into smaller units called tokens. These tokens can be in the form of words, characters, sub-words or sentences.
           It helps improve interpretability of text by different models. Lowercasing ensures words such as "Hello" and "hello" are treated as the same feature. These two steps reduces
@@ -15,7 +16,6 @@
           Stemming. This is especially important in sentiment analysis (like this movie review scenario) since it is sensitive to meaning.
     \item Data Splitting: Stratified sampling ensures that each split has the same class distribution. This prevents class imbalance bias from happening in any of the splits and ensures a
           fair evaluation is performed. Table \ref{class_counts} indicates the class counts in each split:
-
             \begin{table}[htbp]
             \caption{Class counts per dataset split}
             \centering
@@ -30,14 +30,123 @@
             \end{tabular}
             \label{class_counts}
             \end{table}
-
-
 \end{enumerate}
+
+\newpage
 
 \subsubsection{Stage 2: Feature Extraction}
 
+\noindent\textbf{(a)}
+\begin{enumerate}[label=\roman*.]
+    \item TF-IDF Vectorisation: A TF-IDF vectoriser was fit on the training set using sklearn's \emph{TfidfVectorizer()} function. The results were as follows:
+            \begin{table}[htbp]
+            \caption{TF-IDF Vectoriser Results}
+            \centering
+            \begin{tabular}{ccc}
+            \hline
+            \textbf{Vocabulary Size} & \textbf{Max Document Frequency} & \textbf{Matrix Dimensionality} \\
+            \hline
+            29250 & 1.0 & (1400, 29250) \\
+            \hline
+            \end{tabular}
+            \label{tfidf}
+            \end{table}
+    \item Embedding-based features: To extract sentence-level embeddings, a sentence transformer was chosen over Word2Vec and GloVe. Word2Vec and GloVe averaging simply averages word vectors. 
+          Word2Vec works within a local context window whereas GloVe derives relationships based on word pair frequency across the entire text. Both of these methods lead to a loss of word order 
+          as well as context. Sentence transformers on the other hand are trained to encode full sentence meaning which is especially important for sentiment analysis. Table \ref{embedding}
+          indicates the sentence transformer used as well as the resulting embedding dimensionality:
+            \begin{table}[htbp]
+            \caption{Embedding-based features}
+            \centering
+            \begin{tabular}{cc}
+            \hline
+            \textbf{Pre-trained Model} & \textbf{Embedding Dimensionality} \\
+            \hline
+            all-MiniLM-L6-v2 & (1400, 384) \\
+            \hline
+            \end{tabular}
+            \label{embedding}
+            \end{table}
+\end{enumerate}
+
 \subsubsection{Stage 3: SVM Training with Regularisation}
 
+\noindent\textbf{(a)}
+\begin{enumerate}[label=\roman*.]
+    \item Linear SVM with L2 regularisation, C = 1.0: 
+
+        \begin{table}[h!]
+        \caption{Linear SVM with L2 regularisation and C = 1.0}
+        \centering
+        \begin{tabular}{ccc}
+            \hline
+            \textbf{Val F1} & \textbf{Val AUC\_POC} & \textbf{Train Time (s)}\\
+            \hline
+            0.8404 & 0.8367 & 0.1226\\
+            \hline
+        \end{tabular}
+        \label{linear_l2}
+        \end{table}
+
+    \item Linear SVM with L1 regularisation, C = 1.0: 
+
+        \begin{table}[h!]
+        \caption{Linear SVM with L1 regularisation and C = 1.0}
+        \centering
+        \begin{tabular}{ccc}
+            \hline
+            \textbf{Val F1} & \textbf{Val AUC\_POC} & \textbf{Train Time (s)}\\
+            \hline
+            0.8439 & 0.8433 & 0.1407\\
+            \hline
+        \end{tabular}
+        \label{linear_l1}
+        \end{table}
+
+    \newpage
+
+    \item Linear SVM with L2 regularisation, C $\in$ \{0.01, 0.1, 1, 10, 100\}:
+
+        \begin{table}[h!]
+        \caption{Linear SVM with L2 regularisation and varying C values}
+        \centering
+        \begin{tabular}{cccc}
+            \hline
+            C & \textbf{Val F1} & \textbf{Val AUC\_POC} & \textbf{Train Time (s)}\\
+            \hline
+            0.01 & 0.7895 & 0.7867 & 0.1133\\
+            0.1 & 0.8301 & 0.8267 & 0.1146\\
+            1 & 0.8404 & 0.8367 & 0.1229\\
+            10 & 0.8431 & 0.8400 & 0.1752\\
+            100 & 0.8383 & 0.8367 & 0.1374\\
+            \hline
+        \end{tabular}
+        \label{linear_l2_vary}
+        \end{table}
+
+        From Table \ref{linear_l2_vary} it can be seen that the optimal C is 10 based on the best validation F1-score obtained.
+
+    \item RBF kernel SVM with optimal C from (iii) and $\gamma \in \{scale, auto, 0.001, 0.01\}$:
+
+        \begin{table}[h!]
+        \caption{RBF Kernel with optimal C and varying $\gamma$ values}
+        \centering
+        \begin{tabular}{cccc}
+            \hline
+            \textbf{$\gamma$} & \textbf{Val F1} & \textbf{Val AUC\_POC} & \textbf{Train Time (s)}\\
+            \hline
+            scale & 0.8262 & 0.8233 & 2.089\\
+            auto & 0.7747 & 0.7267 & 2.059\\
+            0.001 & 0.7747 & 0.7267 & 2.049\\
+            0.01 & 0.7988 & 0.7800 & 2.044\\
+            \hline
+        \end{tabular}
+        \label{rbf}
+        \end{table}
+\end{enumerate}
+
+\noindent\textbf{(b)}
+Table \ref{config_comp} illustrates a summarized view of the results obtained from Stage 3 (a):
 \begin{table}[htbp]
 \caption{Configuration Comparision}
 \centering
@@ -48,64 +157,93 @@
     (i) & Linear & l$_{2}$ & 1.0 & 0.8404 & 0.8367 & 0.1226\\
     (ii) & Linear & l$_{1}$ & 1.0 & 0.8439 & 0.8433 & 0.1407\\
     (iii, optimal) & Linear & l$_{2}$ & 10 & 0.8431 & 0.8400 & 0.1752\\
-    (iv, optimal) & RBF & l$_{1}$ & 10 & 0.8262 & 0.8233 & 2.0886\\
+    (iv, optimal) & RBF & Squared l$_{2}$ & 10 & 0.8262 & 0.8233 & 2.0886\\
     \hline
 \end{tabular}
-\label{gridsearch}
+\label{config_comp}
 \end{table}
+
+Based on the results obtained from Stage 3 (a) and the summarized view in Table \ref{config_comp}, it can be seen that the best performing configuration was (ii). This was based
+on this configuration having the best validation F1-score and AUC-POC. From these results it can be seen that all configurations performed fairly similar. The only noticeable observation
+is that the RBF kernel has a far greater train time with the worst performance. This indicates that the data does not benefit from the RBF kernel transformation method and that a linear
+model is sufficient. Next, when comparing (ii) and the optimal (iii) to (i), it can be seen that independently altering the regularisation and the C parameters improved the performance.
+This could potentially imply that by applying the regularisation from (ii) and the C value from (iii), an even better performing configuration could potentially be found.
+
+\newpage 
 
 \subsubsection{Stage 4: Evaluation and Reporting}
 
-\begin{table}[htbp]
-\centering
-\caption{Classification Report}
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-Class & Precision & Recall & F1-score & Support \\
-\hline
-0 & 0.81 & 0.76 & 0.78 & 150 \\
-1 & 0.77 & 0.82 & 0.80 & 150 \\
-\hline
-Accuracy & \multicolumn{3}{c|}{0.79} & 300 \\
-\hline
-Macro Avg & 0.79 & 0.79 & 0.79 & 300 \\
-Weighted Avg & 0.79 & 0.79 & 0.79 & 300 \\
-\hline
-\end{tabular}
-\end{table}
+\noindent\textbf{(a)} Class 0 -> Negative Reviews and Class 1 -> Positive Reviews
+\begin{enumerate}[label=\roman*.]
+    \item Full Classification Report:
 
-\begin{figure}[h!]
-    \centering
-    
-    % Top figure
-    \begin{subfigure}{0.48\columnwidth}
+        \begin{table}[htbp]
         \centering
-        \includegraphics[width=\linewidth]{images/confusion_matrix.png}
-        \caption{Confusion Matrix}
-        \label{fig:confusion_matrix}
-    \end{subfigure}
-    
-    \vspace{0.5cm}
-    
-    % Bottom row (two side-by-side)
-    \begin{subfigure}{0.48\columnwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/roc_curve.png}
-        \caption{ROC Curve}
-        \label{fig:roc_curve}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.48\columnwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/pr_curve.png}
-        \caption{Precision-Recall Curve}
-        \label{fig:pr_curve}
-    \end{subfigure}
-    
-    \caption{Model Evaluation Metrics}
-    \label{fig:evaluation_metrics}
-\end{figure}
+        \caption{Classification Report}
+        \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Class & Precision & Recall & F1-score & Support \\
+        \hline
+        0 & 0.81 & 0.76 & 0.78 & 150 \\
+        1 & 0.77 & 0.82 & 0.80 & 150 \\
+        \hline
+        Accuracy & \multicolumn{3}{c|}{0.79} & 300 \\
+        \hline
+        Macro Avg & 0.79 & 0.79 & 0.79 & 300 \\
+        Weighted Avg & 0.79 & 0.79 & 0.79 & 300 \\
+        \hline
+        \end{tabular}
+        \label{classification_report}
+        \end{table}
 
+        From Table \ref{classification_report}, it can be seen that best-performing model achieved an accuracy of 79\% on the test set. Additionally, it can be seen that the F1-score
+        is very close to the accuracy as well indicating a well-balanced model.
+
+    \item Confusion Matrix:
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.5\linewidth]{images/confusion_matrix.png}
+            \caption{Confusion Matrix}
+            \label{fig:confusion_matrix}
+        \end{figure}
+
+        From Figure \ref{fig:confusion_matrix}, it can be seen that the model managed to correctly identify majority of the test cases. One minor issue is that the model tends to classify
+        more reviews as positive when it was actually negative as opposed to the inverse. This is reaffirmed from the classification report (Table \ref{classification_report}) since the
+        precision for the positive class and the recall for the negative class is lower than the accuracy and as a result impacts the F1-score.
+
+    \newpage
+
+    \item ROC curve with the corresponding AUC value:
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.5\linewidth]{images/roc_curve.png}
+            \caption{ROC Curve}
+            \label{fig:roc_curve}
+        \end{figure}
+
+        From Figure \ref{fig:roc_curve}, it can be seen that the ROC-AUC curve represents a model that is much better than a random model. From the AUC score, it indicates that the model is a 
+        strong classifier seeing that is closer to a perfect classifier (AUC = 1) than a random classifier (AUC = 0.5). This indicates that the model performs well across varying thresholds
+        and is a strong model in general.
+
+    \item Precision-Recall curve:
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.5\linewidth]{images/pr_curve.png}
+            \caption{Precision-Recall Curve}
+            \label{fig:pr_curve}
+        \end{figure}
+
+        From Figure \ref{fig:pr_curve}, it can be seen that the precision is very high at low recall. Additionally, as the recall increases, the precision gradually drops. The figure also
+        shows that at a high recall, the precision drops sharply. This indicates that when the model captures more positives, it introduces more false positives. The Precision-Recall curve 
+        focuses mainly on the positive class whereas the ROC curve considers both positive and negative classes. This provides the additional insight that the precision drops significantly 
+        at high recall. This is not evident from the ROC curve which shows a "good overall performance".
+
+\end{enumerate}
+
+\noindent\textbf{(b)}
 \begin{table}[htbp]
 \centering
 \caption{Cross-Validation Performance Metrics}
@@ -119,6 +257,7 @@ AUC-ROC & 0.8936 & 0.0129 \\
 \end{tabular}
 \end{table}
 
+\noindent\textbf{(c)}
 \begin{table}[htbp]
 \caption{Results of best SVM configuration on embedding features}
 \centering
