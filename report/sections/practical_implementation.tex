@@ -5,7 +5,7 @@
 \subsubsection{Stage 1: Data Loading and Preprocessing}
 
 \noindent\textbf{(a)}
-\begin{enumerate}[label=\roman*.]
+\begin{enumerate}[label=\roman*., topsep=0pt, itemsep=2pt]
     \item Tokenisation and lowercasing: Tokenisation involves dividing text into smaller units called tokens. These tokens can be in the form of words, characters, sub-words or sentences.
           It helps improve interpretability of text by different models. Lowercasing ensures words such as "Hello" and "hello" are treated as the same feature. These two steps reduces
           vocabulary size and inconsistency which in turn helps the model generalise better.
@@ -37,7 +37,7 @@
 \subsubsection{Stage 2: Feature Extraction}
 
 \noindent\textbf{(a)}
-\begin{enumerate}[label=\roman*.]
+\begin{enumerate}[label=\roman*., topsep=0pt, itemsep=2pt]
     \item TF-IDF Vectorisation: A TF-IDF vectoriser was fit on the training set using sklearn's \emph{TfidfVectorizer()} function. The results were as follows:
             \begin{table}[htbp]
             \caption{TF-IDF Vectoriser Results}
@@ -72,7 +72,7 @@
 \subsubsection{Stage 3: SVM Training with Regularisation}
 
 \noindent\textbf{(a)}
-\begin{enumerate}[label=\roman*.]
+\begin{enumerate}[label=\roman*., topsep=0pt, itemsep=2pt]
     \item Linear SVM with L2 regularisation, C = 1.0: 
 
         \begin{table}[h!]
@@ -243,7 +243,8 @@ This could potentially imply that by applying the regularisation from (ii) and t
 
 \end{enumerate}
 
-\noindent\textbf{(b)}
+\noindent\textbf{(b)} Table \ref{cross-validation} illustrates the results obtained from implementing 5-fold stratified cross-validation using the most optimal configuration 
+(Linear SVM with L1 regularisation and C = 1.0) on the combined training and validation sets:
 \begin{table}[htbp]
 \centering
 \caption{Cross-Validation Performance Metrics}
@@ -255,18 +256,39 @@ F1-score & 0.8175 & 0.0158 \\
 AUC-ROC & 0.8936 & 0.0129 \\
 \hline
 \end{tabular}
+\label{cross-validation}
 \end{table}
 
+From the results obtained in Table \ref{cross-validation}, it is clear that results from the 5-fold cross validation is very similar to the results obtained form the held-out test set (Table \ref{classification_report}).
+This indicates that the model is fairly stable. The very low standard deviation from Table \ref{cross-validation} also indicates the model performance is very stable. This in general 
+indicates that the model is not sensitive to specific splits. Therefore, the model is able to generalise very well.
+
 \noindent\textbf{(c)}
-\begin{table}[htbp]
-\caption{Results of best SVM configuration on embedding features}
-\centering
-\begin{tabular}{cc}
-    \hline
-    \textbf{F1-score} & \textbf{AUC-ROC} \\
-    \hline
-    0.6730 & 0.7216 \\
-    \hline
-\end{tabular}
-\label{embedding_results}
-\end{table}
+\begin{enumerate}[label=\roman*., topsep=0pt, itemsep=2pt]
+    \item The model using L1 regularisation (ii) outperformed the model using L2 regularisation (i). For a linear SVM model (optimal model), sparse features are generally easier to separate
+    than dense features. L1 regularisation zeroes out less important features creating a more sparse feature space. L2 regularisation on the hand, shrinks less important features but 
+    rarely to zero. Hence, it keeps all the features and since it is more dense than the L1 model, it makes it harder for the linear SVM model to distinguish between the two classes.
+
+    \item Table \ref{embedding_results} indicates the results from the best SVM configuration on embedding features:
+        \begin{table}[htbp]
+        \caption{Results of best SVM configuration on embedding features}
+        \centering
+        \begin{tabular}{cc}
+            \hline
+            \textbf{F1-score} & \textbf{AUC-ROC} \\
+            \hline
+            0.6730 & 0.7216 \\
+            \hline
+        \end{tabular}
+        \label{embedding_results}
+        \end{table}
+
+        From Table \ref{embedding_results} it can be seen that the F1-score and AUC-ROC is more than 10\% lower than the results obtained from using the TF-IDF features. This implies that
+        embedding features performed worse than TF-IDF features for this binary sentiment classification problem. The main reasons for this boils down to the data used, the task at hand and
+        how each feature extraction method works. For the polarity dataset, there are only 2000 reviews which is very little for a generalised pretained sentence transformer model to pick
+        up on the specifics needed for movie sentiment analysis. In addition, the task itself, sentiment analysis, may be an issue. TF-IDF assigns very high weights for words that strongly
+        correlate to positive or negative reviews. Embeddings on the other hand, can give similar words that represent either positive or negative reviews similar vectors. This ultimately
+        results in a blurred sentiment intensity. Lastly, TF-IDF produces a score for each word in the dataset, this produces a sparse feature space. 
+        Embeddings, however, produce a dense feature space. Since, embedding features are more compressed, this makes it hard for a simple linear SVM to discriminate between the two classes.
+
+\end{enumerate}
