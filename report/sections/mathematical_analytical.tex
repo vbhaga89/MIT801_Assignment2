@@ -2,6 +2,61 @@
 
 \subsection{Question 4: Regularisation Mathematics}
 
+\begin{enumerate}[label=\textbf{(\alph*)}, leftmargin=*, align=left]
+    \item \begin{enumerate}[label=\roman*., topsep=0pt, itemsep=2pt]
+                \item L2 regularisation with regularisation strength $\lambda$ > 0:
+                
+                      \[L_{L2}(\omega) = L(\omega) + \lambda \sum_{j = 1}^{d} \omega_j^2\]    
+
+                \item L1 regularisation with regularisation strength $\lambda$ > 0:
+                
+                      \[L_{L1}(\omega) = L(\omega) + \lambda \sum_{j = 1}^{d} |\omega_j|\]    
+
+                
+          \end{enumerate}
+
+    \item Gradient of the L2-regularised loss function:
+    
+          \[\nabla L_{L2}(\omega) = \nabla L(\omega) + \lambda \nabla (\sum_{j = 1}^{d} \omega_j^2)\] 
+          \[\nabla L_{L2}(\omega) = \nabla L(\omega) + 2\lambda \boldsymbol{\omega}\]
+
+          Gradient descent weight update rule:
+
+          \[\omega^{(t+1)} = \omega^{(t)} - \eta (\nabla L(\omega^{(t)}) + 2\lambda \omega^{(t)})\]
+          \[\omega^{(t+1)} = (1 - 2\eta\lambda)\omega^{(t)} - \eta \nabla L(\omega^{(t)})\]
+
+          The larger $\lambda$ results in a stronger shrinkage of the weights towards zero and hence biases the model toward smaller weights.
+    
+    \item \begin{enumerate}[label=\roman*., topsep=0pt, itemsep=2pt]
+                \item MAP objective:
+                
+                    \[\omega^* = \arg\max_{\omega} p(D|\omega) p(\omega)\]
+                    Take the negative log-likelihood so that it becomes a minimisation problem:
+                    \[\omega^* = \arg\min_{\omega} (-\log p(D|\omega) - \log p(\omega))\]
+                    
+                \item Gaussian prior (L2):
+                
+                      \[p(\omega_j) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp (-\frac{\omega_j^2}{2\sigma^2})\]
+                      Take -log:
+                      \[- \log p(\omega_j) = - \log (\frac{1}{\sqrt{2 \pi \sigma^2}}) -\frac{\omega_j^2}{2\sigma^2}\]
+                      Remove constants and sum over $j$:
+                      \[- \log p(\omega) \propto \sum_{j} \omega_j^2\]
+
+                      Laplace prior (L1):
+
+                      \[p(\omega_j) = \frac{1}{2 b} \exp (-\frac{|\omega_j|}{b})\]
+                      Take -log:
+                      \[- \log p(\omega_j) = - \log(\frac{1}{2 b}) - \frac{|\omega_j|}{b}\]
+                      Remove constants and sum over $j$:
+                      \[- \log p(\omega) \propto \sum_{j} |\omega_j|\]
+
+                \item The laplace prior has a sharp peak at zero which forces weights to be exactly 0. This introduces sparsity as there are weights in the feature space that are not active.
+                      The gaussian prior is more smooth and quadratic at zero which leads to shrunken weights that are small but non-zero values. Since all the weights are still active, the gaussian
+                      prior does not contribute to sparsity. 
+            \end{enumerate}
+    
+\end{enumerate}
+
 \subsection{Question 5: Performance Metrics and Evaluation}
 
 \textbf{(a)}
@@ -51,6 +106,7 @@
           has a low false-negative rate (from recall) and a low false-positive rate (from specificity). Another metric that indicates that the classifier is well-rounded is the F1-score
           which is 81\%. This is around the accuracy previously mentioned. This indicates that the classifier is well-balanced and does not favour precision over recall and vice versa. In
           addition, this is especially important for a movie review sentiment application in which predicting positive and negative reviews correctly is equally important.
+    \newpage
     \item The individual threshold-specific metrics are all evaluated at a single decision threshold. Therefore, they provide model performance at one specific operating point. The AUC-ROC 
           curve, on the other hand, measures the model's performance across all possible thresholds. The ROC curve (Receiver Operating Characteristics curve) plots the true positive rate
           against the false positive rate as the threshold varies from 0 to 1. The AUC (Area Under Curve) measures the model's ability to rank positive instances higher than negative ones.

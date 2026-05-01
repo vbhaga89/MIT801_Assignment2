@@ -45,10 +45,10 @@
             \end{table}
 
     \item   \begin{enumerate}[label=\roman*., topsep=0pt, itemsep=2pt]
-                \item Advantage: L1 regularisation reduces irrelevant features (words) by setting their associated weights to zero. This creates a sparse data set which helps an SVM distinguish between
+                \item \textbf{Advantage:} L1 regularisation reduces irrelevant features (words) by setting their associated weights to zero. This creates a sparse data set which helps an SVM distinguish between
                       classes.
 
-                      Disadvantage: L1 is rather unstable when features are correlated (similar words). L1 may select one feature and discards others, leading to loss of useful complimentary signals.
+                      \textbf{Disadvantage:} L1 is rather unstable when features are correlated (similar words). L1 may select one feature and discards others, leading to loss of useful complimentary signals.
                       This can cause more variance in model performance across different training sets.
                     
                 \item L2 regularisation is more appropriate when correlated features are present. Hence, when the goal is to achieve a robust model. L2 distributes weight across correlated features rather
@@ -59,4 +59,54 @@
 
 \subsection{Question 2: Feature Extraction for Text Classification}
 
+\begin{enumerate}[label=\textbf{(\alph*)}, leftmargin=*, align=left]
+    \item \textbf{Feature selection} is a technique in which a subset of the original feature are chosen. This method simply reduces the feature space by just selecting the best features from
+          the original feature space. Since only a subset is chosen, the features are still interpretable since they have not been altered. For text data, using
+          TF-IDF, the individual words are still retained. Hence, feature selection is preferred for text data where semantic meaning is important.
+
+          \textbf{Feature extraction} is a technique in which new features are created by transforming the original features. This technique reduces dimensionality by creating a more compact 
+          feature space from transforming the original feature space. The resulting features are also interpretable as well however will have lower levels of 
+          interpretability than feature selection because of the feature space now being a transformed version of the original space. Feature extraction is better for capturing underlying
+          context such as word similarities. This is not suitable for text data in which semantic meaning is important since the new features may not have direct semantic meaning that a
+          feature set with feature selection would have.
+    
+    \item \textbf{TF-IDF Vectorisation:} This method converts text into numerical vectors by measuring a word's importance within a document relative to all the documents (corpus). Basically,
+          it weights how frequent a word is in a document and how rare it is across all documents. The main strength of this method is that it highlights words with high semantic
+          meaning and while down-weighting common words will low semantic meaning. One disadvantage is that it does not take into account word order and context since words are seen
+          as individual features. Thus, it cannot distinguish between phrases such as "bad" and "not bad" which can be very important in sentiment analysis. 
+    
+          \textbf{Embedding-based Features:} This method involves using a pretrained model that converts text into dense, numerical, low-dimensional vectors, where semantically similar words
+          are mapped to nearby points in a vector space. One main advantage is that it can capture semantic similarity between words which can help generalisation (contextual awareness).
+          A disadvantage of this method in particular with sentiment analysis is that by grouping similar words, it can weaken the overall sentiment indicators. This could potentially
+          make it harder for SVM classifiers to create an appropriate decision boundary.
+
+          \textbf{Bag of Words:} This method converts text into numerical vectors based on word frequency. It creates a feature space of unique words in all documents by representing each document
+          by counting word occurrences. One main advantage is that it is simple and effective at extracting strong explicit sentiment words which is generally good enough for sentiment
+          analysis. A disadvantage of this method is that it ignores word order and context just like TF-IDF vectorisation which may have a big impact in sentiment analysis when phrases such
+          as "not good" and "not bad" for example are common.
+    
+\end{enumerate}
+
 \subsection{Question 3: Support Vector Machines}
+
+\begin{enumerate}[label=\textbf{(\alph*)}, leftmargin=*, align=left]
+    \item For binary sentiment classification using an SVM, the decision boundary refers to the boundary (hyperplane) that separates the reviews into positive and negative based on their
+          feature vectors. The margin refers to the distance between the boundary and the closest training points from each class. It indicates a confidence buffer around the decision boundary.
+          The support vectors refer to the reviews that are the closest to the boundary which are used to determine the margin around the boundary. By maximising the margin, it reduces the 
+          model's sensitivity to noise in the data. This creates a more stable, robust boundary which creates a model that is better at generalising.
+
+    \newpage
+    \item   \begin{enumerate}[label=\roman*., topsep=0pt, itemsep=2pt]
+                \item The kernel trick maps data into a higher-dimensional feature space without ever computing that mapping explicitly. This lets the SVM learn non-linear decision
+                      boundaries. It is computationally preferable to explicitly computing a high-dimensional feature mapping because it computes dot products between pair of points
+                      in the high-dimensional space without directly transforming the data. This reduces time since this computation is generally efficient and it also reduces the need
+                      to store transformed data.
+                    
+                \item \textbf{Linear:} By using TF-IDF, text data can be represented as a sparse, high-dimensional feature space. In this instance, classes are often linearly separable.
+                      This works well for a linear kernel that will be able to create a boundary and margin that can distinguish between the two classes.
+                
+                      \textbf{Radial Basis Function (RBF):} The RBF kernel is useful for modelling the non-linear relationship between features. This is especially important if there 
+                      are complex relationships between words that heavily contribute to the sentiment.
+            \end{enumerate}
+    
+\end{enumerate}
