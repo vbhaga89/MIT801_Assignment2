@@ -60,7 +60,7 @@
 \subsection{Question 2: Feature Extraction for Text Classification}
 
 \begin{enumerate}[label=\textbf{(\alph*)}, leftmargin=*, align=left]
-    \item \textbf{Feature selection} is a technique in which a subset of the original feature are chosen. This method simply reduces the feature space by just selecting the best features from
+    \item \textbf{Feature selection} is a technique in which a subset of the original features are chosen. This method simply reduces the feature space by just selecting the best features from
           the original feature space. Since only a subset is chosen, the features are still interpretable since they have not been altered. For text data, using
           TF-IDF, the individual words are still retained. Hence, feature selection is preferred for text data where semantic meaning is important.
 
@@ -72,7 +72,7 @@
     
     \item \textbf{TF-IDF Vectorisation:} This method converts text into numerical vectors by measuring a word's importance within a document relative to all the documents (corpus). Basically,
           it weights how frequent a word is in a document and how rare it is across all documents. The main strength of this method is that it highlights words with high semantic
-          meaning and while down-weighting common words will low semantic meaning. One disadvantage is that it does not take into account word order and context since words are seen
+          meaning while down-weighting common words will low semantic meaning. One disadvantage is that it does not take into account word order and context since words are seen
           as individual features. Thus, it cannot distinguish between phrases such as "bad" and "not bad" which can be very important in sentiment analysis. 
     
           \textbf{Embedding-based Features:} This method involves using a pretrained model that converts text into dense, numerical, low-dimensional vectors, where semantically similar words

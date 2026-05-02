@@ -53,7 +53,7 @@
             \end{table}
     \item Embedding-based features: To extract sentence-level embeddings, a sentence transformer was chosen over Word2Vec and GloVe. Word2Vec and GloVe averaging simply averages word vectors. 
           Word2Vec works within a local context window whereas GloVe derives relationships based on word pair frequency across the entire text. Both of these methods lead to a loss of word order 
-          as well as context. Sentence transformers on the other hand are trained to encode full sentence meaning which is especially important for sentiment analysis. Table \ref{embedding}
+          as well as context. Sentence transformers on the other hand are trained to encode full sentence meaning which can be important for sentiment analysis. Table \ref{embedding}
           indicates the sentence transformer used as well as the resulting embedding dimensionality:
             \begin{table}[htbp]
             \caption{Embedding-based features}
@@ -224,7 +224,7 @@ This could potentially imply that by applying the regularisation from (ii) and t
         \end{figure}
 
         From Figure \ref{fig:roc_curve}, it can be seen that the ROC-AUC curve represents a model that is much better than a random model. From the AUC score, it indicates that the model is a 
-        strong classifier seeing that is closer to a perfect classifier (AUC = 1) than a random classifier (AUC = 0.5). This indicates that the model performs well across varying thresholds
+        strong classifier seeing that it is closer to a perfect classifier (AUC = 1) than a random classifier (AUC = 0.5). This indicates that the model performs well across varying thresholds
         and is a strong model in general.
 
     \item Precision-Recall curve:
