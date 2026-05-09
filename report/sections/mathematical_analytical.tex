@@ -109,10 +109,10 @@
     \newpage
     \item The individual threshold-specific metrics are all evaluated at a single decision threshold. Therefore, they provide model performance at one specific operating point. The AUC-ROC 
           curve, on the other hand, measures the model's performance across all possible thresholds. The ROC curve (Receiver Operating Characteristics curve) plots the true positive rate
-          against the false positive rate as the threshold varies from 0 to 1. The AUC (Area Under Curve) measures the model's ability to rank positive instances higher than negative ones.
+          against the false positive rate as the threshold varies from 0 to 1 \parencite{geron2019hands}. The AUC (Area Under Curve) measures the model's ability to rank positive instances higher than negative ones.
           An AUC = 1 indicates a perfect model and an AUC = 0.5 indicates a random model. This is particularly important to measure for large class imbalance scenarios. For example,
           if the class split is 95\% negative and only 5\% positive and the model predicts 'negative' for everything, it will get a 95\% accuracy. This may look good but is actually 
-          useless as it never is able to predict positive cases. As a result, this can be a major issue in applications such as fraud detection or medical diagnosis. This is where AUC-ROC comes 
+          useless as it is never able to predict positive cases. As a result, this can be a major issue in applications such as fraud detection or medical diagnosis. This is where AUC-ROC comes 
           into play as the AUC-ROC score can indicate the model's true performance to distinguish between positives and negatives. In this particular scenario, a model with 95\% accuracy 
           and an AUC = 0.5 is actually less useful than a model with 90\% accuracy and an AUC = 0.8.
 \end{enumerate}

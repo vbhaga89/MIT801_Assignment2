@@ -15,7 +15,7 @@
           Stemming is performed on each word independently whereas Lemmatisation is context aware. Lemmatisation was chosen for this use case since it preserves meaning more accurately than
           Stemming. This is especially important in sentiment analysis (like this movie review scenario) since it is sensitive to meaning.
     \item Data Splitting: Stratified sampling ensures that each split has the same class distribution. This prevents class imbalance bias from happening in any of the splits and ensures a
-          fair evaluation is performed. Table \ref{class_counts} indicates the class counts in each split:
+          fair evaluation is performed. The \emph{random\_state} parameter during the TrainTestSplit was set to 42. Table \ref{class_counts} indicates the class counts in each split:
             \begin{table}[htbp]
             \caption{Class counts per dataset split}
             \centering
@@ -71,7 +71,7 @@
 
 \subsubsection{Stage 3: SVM Training with Regularisation}
 
-\noindent\textbf{(a)}
+\noindent\textbf{(a)} The SVM was then trained with the changes done to the respective parameters. All other parameters were kept as their default value during training.
 \begin{enumerate}[label=\roman*., topsep=0pt, itemsep=2pt]
     \item Linear SVM with L2 regularisation, C = 1.0: 
 
@@ -166,8 +166,10 @@ Table \ref{config_comp} illustrates a summarized view of the results obtained fr
 Based on the results obtained from Stage 3 (a) and the summarized view in Table \ref{config_comp}, it can be seen that the best performing configuration was (ii). This was based
 on this configuration having the best validation F1-score and AUC-POC. From these results it can be seen that all configurations performed fairly similar. The only noticeable observation
 is that the RBF kernel has a far greater train time with the worst performance. This indicates that the data does not benefit from the RBF kernel transformation method and that a linear
-model is sufficient. Next, when comparing (ii) and the optimal (iii) to (i), it can be seen that independently altering the regularisation and the C parameters improved the performance.
-This could potentially imply that by applying the regularisation from (ii) and the C value from (iii), an even better performing configuration could potentially be found.
+model is sufficient. Next, when comparing (ii) to (i) and the optimal (iii), making use of L1 regularisation is better suited for this classification problem. This indicates that creating
+a sparse feature set was more beneficial in this particular case than simply reducing the weights of the feature set. Lastly, when comparing (ii) and the optimal (iii) to (i), it can be 
+seen that independently altering the regularisation and the C parameters improved the performance. This could potentially imply that by applying the regularisation from (ii) and the 
+C value from (iii), an even better performing configuration could potentially be found.
 
 \newpage 
 

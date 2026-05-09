@@ -4,7 +4,7 @@
 
 \begin{enumerate}[label=\textbf{(\alph*)}, leftmargin=*, align=left]
     \item Overfitting occurs when a model learns the characteristics of the training set too closely resulting in the model not learning underlying general patterns. As a result, 
-          the model fails to generalise when exposed to an unseen (test) dataset. 
+          the model fails to generalise when exposed to an unseen (test) dataset \parencite{geron2019hands}.
     
           For a sentiment classifier trained on the Polarity Dataset v2.0, two observable signs of overfitting the training data would be a poor F1-score and a low AUC-ROC score for a test set.
           A low F1-score indicates poor Precision and poor Recall which implies that the model has a high number of false positives and false negatives. Another sign would be a low AUC-ROC score.
@@ -12,13 +12,13 @@
           much better than a random model. This can be as a result of memorising specific words, phrases or patterns from the training set reviews.
 
           Overfitting is especially an issue in high-dimensional text feature spaces. As the dimension increases, data becomes more spread out which can make it harder for the model to 
-          learn general patterns resulting in the model memorising instead. In addition, there can be instances in which the model find rare words that may appear predictive in training
+          learn general patterns resulting in the model memorising instead. In addition, there can be instances in which the model finds rare words that may appear predictive in training
           but are actually noise due to each word being treated as a feature. Lastly, many features (words) may not even be present in some reviews. The model can overemphasise these words
           also resulting in the model learning noise and hence overfitting.
 
     \newpage
     
-    \item   Table \ref{reg_comp} illustrates the comparision between L1 and L2 regularisation:
+    \item   Table \ref{reg_comp} illustrates the comparision between L1 and L2 regularisation \parencite{geron2019hands}:
     
             \begin{table}[htbp]
             \caption{L1 vs L2 Regularisation}
@@ -65,7 +65,7 @@
           TF-IDF, the individual words are still retained. Hence, feature selection is preferred for text data where semantic meaning is important.
 
           \textbf{Feature extraction} is a technique in which new features are created by transforming the original features. This technique reduces dimensionality by creating a more compact 
-          feature space from transforming the original feature space. The resulting features are also interpretable as well however will have lower levels of 
+          feature space by transforming the original feature space. The resulting features are also interpretable as well however will have lower levels of 
           interpretability than feature selection because of the feature space now being a transformed version of the original space. Feature extraction is better for capturing underlying
           context such as word similarities. This is not suitable for text data in which semantic meaning is important since the new features may not have direct semantic meaning that a
           feature set with feature selection would have.
@@ -93,14 +93,14 @@
     \item For binary sentiment classification using an SVM, the decision boundary refers to the boundary (hyperplane) that separates the reviews into positive and negative based on their
           feature vectors. The margin refers to the distance between the boundary and the closest training points from each class. It indicates a confidence buffer around the decision boundary.
           The support vectors refer to the reviews that are the closest to the boundary which are used to determine the margin around the boundary. By maximising the margin, it reduces the 
-          model's sensitivity to noise in the data. This creates a more stable, robust boundary which creates a model that is better at generalising.
+          model's sensitivity to noise in the data. This creates a more stable, robust boundary which creates a model that is better at generalising \parencite{geron2019hands}.
 
     \newpage
     \item   \begin{enumerate}[label=\roman*., topsep=0pt, itemsep=2pt]
                 \item The kernel trick maps data into a higher-dimensional feature space without ever computing that mapping explicitly. This lets the SVM learn non-linear decision
                       boundaries. It is computationally preferable to explicitly computing a high-dimensional feature mapping because it computes dot products between pair of points
                       in the high-dimensional space without directly transforming the data. This reduces time since this computation is generally efficient and it also reduces the need
-                      to store transformed data.
+                      to store transformed data \parencite{geron2019hands}.
                     
                 \item \textbf{Linear:} By using TF-IDF, text data can be represented as a sparse, high-dimensional feature space. In this instance, classes are often linearly separable.
                       This works well for a linear kernel that will be able to create a boundary and margin that can distinguish between the two classes.
